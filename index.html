@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AstraCode Studio — Telegram-боты на заказ</title>
+<meta name="description" content="Telegram-боты на заказ для бизнеса, сообществ и личных задач: заявки, запись клиентов, напоминания, рассылки. Бесплатная оценка задачи. Кишинёв и удалённо.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f6fa; --surface: #ffffff; --surface-2: #eef1f7; --text: #121722; --muted: #5a6475;
+    --line: #dde2ec; --accent: #229ed9; --accent-ink: #ffffff; --accent-soft: #e3f3fb;
+    --chat-bg: #dfe9f2; --bubble-in: #ffffff; --bubble-out: #d9f5c8; --btn: #e8f1f8; --btn-ink: #1d6fa5;
+    --shadow: 0 10px 30px rgba(18, 23, 34, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f141c; --surface: #161d28; --surface-2: #1d2532; --text: #e8edf5; --muted: #9aa6b8;
+      --line: #273142; --accent: #3bb1e8; --accent-ink: #06141c; --accent-soft: #15303f;
+      --chat-bg: #0e1621; --bubble-in: #182533; --bubble-out: #2b5278; --btn: #1f3346; --btn-ink: #8fd0f5;
+      --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f141c; --surface: #161d28; --surface-2: #1d2532; --text: #e8edf5; --muted: #9aa6b8;
+    --line: #273142; --accent: #3bb1e8; --accent-ink: #06141c; --accent-soft: #15303f;
+    --chat-bg: #0e1621; --bubble-in: #182533; --bubble-out: #2b5278; --btn: #1f3346; --btn-ink: #8fd0f5;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: "Manrope", system-ui, sans-serif; font-size: 16px; line-height: 1.55; }
+  a { color: var(--accent); }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+
+  /* header */
+  header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .logo { font-family: "IBM Plex Mono", monospace; font-weight: 700; text-decoration: none; color: var(--text); white-space: nowrap; }
+  .logo span { color: var(--accent); }
+  nav.links { display: flex; gap: 22px; }
+  nav.links a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; }
+  nav.links a:hover { color: var(--text); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 700; text-decoration: none; border: 1px solid transparent; font-size: 15px; white-space: nowrap; }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { border-color: var(--line); color: var(--text); background: var(--surface); }
+  .btn-sm { padding: 9px 14px; font-size: 14px; }
+
+  /* hero */
+  .hero { padding: 64px 0 40px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; color: var(--accent); font-weight: 500; font-size: 14px; letter-spacing: .3px; }
+  h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.08; font-weight: 800; letter-spacing: -1px; margin: 14px 0 18px; }
+  .lead { font-size: 18px; color: var(--muted); max-width: 560px; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .facts { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 34px; }
+  .facts b { display: block; font-size: 22px; font-weight: 800; }
+  .facts span { color: var(--muted); font-size: 14px; }
+
+  /* phone / chat mockup */
+  .phone { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 10px; box-shadow: var(--shadow); max-width: 360px; margin: 0 auto; width: 100%; }
+  .chat-head { display: flex; align-items: center; gap: 10px; padding: 8px 10px 12px; }
+  .ava { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; background: var(--accent-soft); }
+  .chat-head b { font-size: 15px; display: block; line-height: 1.2; }
+  .chat-head small { color: var(--muted); font-size: 12px; }
+  .chat { background: var(--chat-bg); border-radius: 18px; padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.4; min-height: 300px; }
+  .msg { max-width: 88%; padding: 8px 11px; border-radius: 14px; background: var(--bubble-in); align-self: flex-start; box-shadow: 0 1px 1px rgba(0,0,0,.06); }
+  .msg.out { background: var(--bubble-out); align-self: flex-end; }
+  .msg .t { display: block; text-align: right; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .kb { display: grid; gap: 4px; margin-top: 6px; }
+  .kb.c2 { grid-template-columns: 1fr 1fr; } .kb.c3 { grid-template-columns: 1fr 1fr 1fr; }
+  .kb span { background: var(--btn); color: var(--btn-ink); border-radius: 8px; text-align: center; padding: 6px 4px; font-size: 13px; font-weight: 600; }
+  .mock-note { text-align: center; color: var(--muted); font-size: 12px; margin-top: 8px; }
+
+  /* sections */
+  section.block { padding: 56px 0; }
+  h2 { font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; font-weight: 800; letter-spacing: -.5px; }
+  .sub { color: var(--muted); margin-top: 10px; max-width: 640px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 28px; }
+  .card h3 { font-size: 21px; font-weight: 800; margin-bottom: 6px; }
+  .card p { color: var(--muted); }
+  .ticks { list-style: none; margin-top: 16px; display: grid; gap: 9px; }
+  .ticks li { padding-left: 28px; position: relative; }
+  .ticks li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 20px; height: 20px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 800; display: grid; place-items: center; }
+
+  /* cases */
+  .case { display: grid; grid-template-columns: 340px 1fr; gap: 36px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 28px; margin-top: 24px; }
+  .case.site { grid-template-columns: 1.1fr 1fr; }
+  .case .phone { box-shadow: none; max-width: 340px; }
+  .case h3 { font-size: 24px; font-weight: 800; }
+  .case .kind { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); }
+  .case p { color: var(--muted); margin-top: 8px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .tags span { font-family: "IBM Plex Mono", monospace; font-size: 12px; padding: 4px 9px; border-radius: 8px; background: var(--surface-2); color: var(--muted); }
+  .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .case-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; counter-reset: s; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; counter-increment: s; }
+  .step::before { content: "0" counter(s); font-family: "IBM Plex Mono", monospace; color: var(--accent); font-weight: 700; }
+  .step h4 { font-size: 17px; margin: 8px 0 6px; }
+  .step p { color: var(--muted); font-size: 15px; }
+
+  /* promise + faq */
+  .promise { background: var(--accent-soft); border: 1px solid var(--line); border-radius: 24px; padding: 32px; display: flex; gap: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .promise h2 { font-size: clamp(22px, 2.8vw, 30px); }
+  .promise p { color: var(--muted); margin-top: 8px; max-width: 680px; }
+  .faq { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .faq .card { padding: 22px; }
+  .faq h3 { font-size: 17px; }
+
+  /* about + contact */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+  .contact { background: var(--accent); color: var(--accent-ink); border-radius: 28px; padding: 44px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; }
+  .contact h2 { color: inherit; }
+  .contact p { opacity: .85; margin-top: 10px; }
+  .contact .btn { background: var(--accent-ink); color: var(--accent); }
+  .contact .list { display: grid; gap: 10px; justify-items: start; }
+  .contact .list a.plain { color: inherit; font-weight: 600; }
+  footer { padding: 36px 0 48px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .theme-toggle { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 10px; padding: 6px 10px; cursor: pointer; font: inherit; font-size: 13px; }
+
+  @media (max-width: 900px) {
+    nav.links { display: none; }
+    .hero .wrap, .grid2, .about, .faq, .contact, .case, .case.site { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .case .phone { margin: 0; }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding: 0 16px; }
+    .top .long { display: none; }
+    .hero { padding-top: 36px; }
+    .steps { grid-template-columns: 1fr; }
+    .card, .case { padding: 20px; }
+    .contact { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">AstraCode<span> Studio</span></a>
+    <nav class="links">
+      <a href="#services">Услуги</a>
+      <a href="#bots">Боты</a>
+      <a href="#process">Как работаем</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="https://t.me/astracode_studio_bot">Оставить заявку</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">// Telegram-боты на заказ · Кишинёв и удалённо</div>
+        <h1>Telegram-бот под вашу задачу</h1>
+        <p class="lead">Бот принимает заявки, записывает клиентов, напоминает и отвечает на вопросы, пока вы заняты делом. Опишите идею: скажем, как её сделать, сколько это стоит и когда будет готово.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="https://t.me/astracode_studio_bot">Оставить заявку в боте</a>
+          <a class="btn btn-ghost" href="#bots">Посмотреть примеры</a>
+        </div>
+        <div class="facts">
+          <div><b>0 MDL</b><span>за оценку задачи</span></div>
+          <div><b>1 день</b><span>на ответ по заявке</span></div>
+          <div><b>4 бота</b><span>работают каждый день</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="phone" aria-label="Пример интерфейса бота Skrepa">
+          <div class="chat-head"><div class="ava">🐾</div><div><b>Skrepa</b><small>бот · семейный чат</small></div></div>
+          <div class="chat">
+            <div class="msg">🍽 <b>Пора кормить Скрепу</b><br>Прошло 3 часа с последнего кормления.
+              <div class="kb"><span>🍽 Покормил</span></div><span class="t">13:00</span></div>
+            <div class="msg out">🍽 Покормил<span class="t">13:04</span></div>
+            <div class="msg">✅ Записал: 13:04, покормил Саша.<br>Следующее напоминание в 16:04.<span class="t">13:04</span></div>
+            <div class="msg">📋 <b>Пора: обработка от блох</b><br>Раз в месяц, сегодня.
+              <div class="kb c2"><span>✅ Сделано</span><span>⏰ Завтра</span></div><span class="t">10:00</span></div>
+          </div>
+        </div>
+        <div class="mock-note">Так выглядит один из наших ботов</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="services">
+    <div class="wrap">
+      <h2>Каких ботов мы делаем</h2>
+      <p class="sub">Небольшие боты под конкретную задачу: без лишних функций, с понятной ценой и сроком.</p>
+      <div class="grid2">
+        <div class="card">
+          <h3>💼 Для бизнеса</h3>
+          <p>Чтобы клиенты не терялись в переписке, а вы не отвечали на одно и то же.</p>
+          <ul class="ticks">
+            <li>Приём заявок и заказов: пошаговая форма вместо переписки</li>
+            <li>Запись на услуги и напоминания клиентам о визите</li>
+            <li>Каталог услуг или товаров с ценами, заказ в пару нажатий</li>
+            <li>Ответы на частые вопросы и связь с менеджером</li>
+            <li>Рассылки и уведомления: акции, статус заказа, напоминания</li>
+            <li>Отчёты для владельца: заявки за день, выгрузка в файл</li>
+            <li>Несколько языков: русский, румынский, английский</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>👥 Для команд, сообществ и себя</h3>
+          <p>Чтобы рутина делалась сама, а важное не забывалось.</p>
+          <ul class="ticks">
+            <li>Напоминания и расписания для семьи или сотрудников</li>
+            <li>Боты для групп: жеребьёвки, рейтинги, испытания, события</li>
+            <li>Управление сервером или сервисом прямо из Telegram</li>
+            <li>Оповещения о сбоях и важных событиях</li>
+            <li>Учёт и дневники: записи, графики, сводки</li>
+            <li>Роли и доступ: владелец, админы, участники</li>
+            <li>Связь с внешними сервисами и сайтами</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="promise" style="margin-top:20px">
+        <div>
+          <h2>Не нашли свою задачу в списке?</h2>
+          <p>Если бота можно сделать технически, мы его сделаем. Опишите идею своими словами: в течение дня ответим, что получится, сколько это стоит и сколько займёт. Если задача не решается ботом, скажем об этом сразу.</p>
+        </div>
+        <a class="btn btn-primary" href="https://t.me/astracode_studio_bot">Описать идею</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="bots">
+    <div class="wrap">
+      <h2>Примеры наших ботов</h2>
+      <p class="sub">Эти боты работают каждый день. Такого же или совсем другого сделаем для вас.</p>
+
+      <article class="case">
+        <div class="phone" aria-label="Пример интерфейса бота заявок AstraCode Studio">
+          <div class="chat-head"><div class="ava">🚀</div><div><b>AstraCode Studio</b><small>бот · личные сообщения</small></div></div>
+          <div class="chat">
+            <div class="msg">👋 Здравствуйте! Это AstraCode Studio: делаем Telegram-ботов и небольшие сайты на заказ.<br><b>Что вам нужно?</b>
+              <div class="kb c3"><span>🤖 Бот</span><span>🌐 Сайт</span><span>Другое</span></div><span class="t">12:30</span></div>
+            <div class="msg out">🤖 Бот<span class="t">12:30</span></div>
+            <div class="msg"><b>Проверьте заявку</b><br>Услуга: 🤖 Бот<br>Задача: запись клиентов в салон<br>Сроки: 📅 1–2 недели
+              <div class="kb c2"><span>✅ Отправить</span><span>✏️ Изменить</span></div><span class="t">12:33</span></div>
+            <div class="msg">✅ Заявка №12 принята, ответим в течение дня.<span class="t">12:33</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="kind">для бизнеса · приём заявок</div>
+          <h3>Бот для приёма заявок</h3>
+          <p>Бот, через который студия сама принимает заказы. Клиент отвечает на несколько вопросов кнопками, владелец сразу получает готовую карточку заявки и переписывается с клиентом прямо через бота. Ни одна заявка не теряется в личных сообщениях.</p>
+          <p><b>Кому подойдёт:</b> салоны, мастерские, ремонт, доставка, репетиторы: любой бизнес, где клиенты пишут «сколько стоит и когда можно».</p>
+          <ul class="ticks">
+            <li>Пошаговая форма: услуга, описание, сроки, бюджет, контакт; перед отправкой клиент проверяет и правит заявку</li>
+            <li>Статусы заявки и уведомления клиенту: новая, в работе, закрыта</li>
+            <li>Переписка владельца с клиентом внутри бота, без обмена номерами</li>
+            <li>Три языка: русский, румынский, английский</li>
+            <li>Язык подбирается автоматически по настройкам Telegram клиента</li>
+            <li>Защита от спама: лимит заявок и сообщений в сутки</li>
+            <li>Настраивается под любой бизнес одним файлом: услуги, вопросы, тексты</li>
+            <li>Автоматические резервные копии базы заявок</li>
+          </ul>
+          <div class="case-links"><a class="btn btn-primary btn-sm" href="https://t.me/astracode_studio_bot">Попробовать бота</a></div>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="phone" aria-label="Пример интерфейса BotAstra">
+          <div class="chat-head"><div class="ava">🎲</div><div><b>BotAstra</b><small>бот · группа отряда</small></div></div>
+          <div class="chat">
+            <div class="msg out">/roll<span class="t">21:02</span></div>
+            <div class="msg">🎲 <b>Реалистичные бои · БР 7.7</b><br>Наземная техника, у каждого своя:<br>
+              • Саша — Т-55А<br>• Дима — Leopard A1A1<br>• Олег — M60A1<br>• Ира — AMX-30B2
+              <div class="kb"><span>🎲 Перебросить</span></div><span class="t">21:02</span></div>
+            <div class="msg">🔥 <b>Испытание недели</b><br>Саша: 3 уничтожения на ИТ-1 за один бой. До понедельника 12:00.
+              <div class="kb"><span>✅ Я сделал</span></div><span class="t">18:00</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="kind">для сообщества · игровой чат</div>
+          <h3>Бот игрового сообщества</h3>
+          <p>Бот для группы друзей, которые играют вместе. Каждый отмечает свою технику, а команда <span class="mono">/roll</span> подбирает всем машины так, чтобы отряд попал в один бой. Бот живёт в общем чате, ведёт рейтинг и сам напоминает о событиях.</p>
+          <p><b>Кому подойдёт:</b> игровые и любительские сообщества, клубы, команды: всё, где нужны жеребьёвка, рейтинг, испытания и общий календарь.</p>
+          <ul class="ticks">
+            <li>Каталог ~3 300 машин, обновляется из открытых данных игры</li>
+            <li>Поиск понимает сленг и сокращённые названия</li>
+            <li>Справедливый подбор: учитывает технику самого слабого игрока</li>
+            <li>Настройки для каждого чата кнопками, без команд</li>
+            <li>Еженедельные испытания, рейтинг и серии, как в Duolingo</li>
+            <li>Напоминания о событиях, новости после каждого обновления</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="phone" aria-label="Пример интерфейса Minecraft Admin Bot">
+          <div class="chat-head"><div class="ava">⛏️</div><div><b>Server Admin</b><small>бот · группа сервера</small></div></div>
+          <div class="chat">
+            <div class="msg">📌 <b>🟢 Сервер работает</b><br>Игроков: 4 · TPS 19.8<br>RAM 5.1 / 8 ГБ · CPU 64%<br>Аптайм 6 ч 12 мин
+              <div class="kb c3"><span>▶️ Start</span><span>🔄 Restart</span><span>⏹ Stop</span></div><span class="t">20:40</span></div>
+            <div class="msg">💀 <b>Steve</b> погиб в Верхнем мире<br>XYZ: 214, 63, −1180
+              <div class="kb"><span>📍 TP админа к месту</span></div><span class="t">20:41</span></div>
+            <div class="msg">💾 Бэкап готов: 1,2 ГБ. Свободно 18 ГБ.<span class="t">21:00</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="kind">для администратора · управление сервисом</div>
+          <h3>Админ-бот игрового сервера</h3>
+          <p>Управление сервером Minecraft прямо из Telegram: статус, кнопки питания, консоль, модерация и мост чата между игрой и группой. Админу не нужен компьютер: всё делается с телефона, а о проблемах бот сообщает сам.</p>
+          <p><b>Кому подойдёт:</b> владельцы серверов и сервисов. Тот же подход работает для сайта, оборудования или любой системы с API: статус, кнопки управления, оповещения о сбоях.</p>
+          <ul class="ticks">
+            <li>Живой статус в закреплённом сообщении: онлайн, TPS, RAM, диск</li>
+            <li>Start / Stop / Restart с подтверждением и журналом действий</li>
+            <li>Алерты о падении сервера с автоперезапуском, отчёты о бэкапах</li>
+            <li>Мост чата Telegram ↔ игра, координаты смертей, вайтлист и баны</li>
+            <li>Связь с панелью хостинга: бот видит то же, что и админ в панели</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="phone" aria-label="Пример интерфейса Skrepa">
+          <div class="chat-head"><div class="ava">🐾</div><div><b>Skrepa</b><small>бот · личные сообщения</small></div></div>
+          <div class="chat">
+            <div class="msg out">⚖️ Вес<span class="t">09:15</span></div>
+            <div class="msg">⚖️ <b>Вес Скрепы</b><br>Сегодня: 4,2 кг (+0,1 за неделю)<br><span class="mono">▁▂▃▃▄▅▅▆</span><br>Норма для её возраста ✅<span class="t">09:15</span></div>
+            <div class="msg">💊 Приём лекарства: 1 таблетка, 2-й день из 5.
+              <div class="kb c2"><span>✅ Дал</span><span>⏰ Через час</span></div><span class="t">09:00</span></div>
+            <div class="msg">📄 <b>Сводка для врача</b> за 30 дней: вес, кормления, лекарства, уход, прививки.<span class="t">09:20</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="kind">для семьи · напоминания и учёт</div>
+          <h3>Семейный помощник по уходу за питомцем</h3>
+          <p>Семейный бот: напоминает о кормлении, лекарствах и прививках, следит за весом и запасами корма. Каждый в семье видит, что уже сделано, и ничего не дублируется.</p>
+          <p><b>Кому подойдёт:</b> та же схема работает для напоминаний клиентам о записи, графика смен, приёма лекарств или регулярного обслуживания техники.</p>
+          <ul class="ticks">
+            <li>Расписания напоминаний с отметкой «сделано» и повтором</li>
+            <li>Курсы лекарств: дозировка, счётчик дней, перенос приёма на час</li>
+            <li>Доступ для семьи: запрос доступа и одобрение админом</li>
+            <li>График веса, дневник наблюдений, отчёт файлом для врача</li>
+            <li>Учёт запасов и список покупок, недельная сводка</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="sites">
+    <div class="wrap">
+      <h2>Нужен ещё и сайт?</h2>
+      <p class="sub">Делаем небольшие сайты и лендинги: страницу для бота, визитку, форму с расчётом цены. Примеры можно открыть с телефона.</p>
+
+      <article class="case site">
+        <a class="shot" href="https://siradastra.github.io/dostaffkin/order"><img src="assets/dostaffkin-order.png" alt="Страница оформления доставки" loading="lazy"></a>
+        <div>
+          <div class="kind">сайт · калькулятор доставки</div>
+          <h3>Сайт службы доставки</h3>
+          <p>Учебный проект: расчёт стоимости, маршрут на карте и отслеживание посылки.</p>
+          <ul class="ticks">
+            <li>Форма заказа с проверкой полей и расчётом цены по тарифам</li>
+            <li>Интерактивная карта, маршрут и подсказки адресов</li>
+            <li>Удобно с телефона</li>
+          </ul>
+          <div class="case-links"><a class="btn btn-primary btn-sm" href="https://siradastra.github.io/dostaffkin/">Открыть сайт</a></div>
+        </div>
+      </article>
+
+      <article class="case site">
+        <a class="shot" href="https://siradastra.github.io/weather-widget/"><img src="assets/weather.png" alt="Виджет погоды" loading="lazy"></a>
+        <div>
+          <div class="kind">виджет · данные из внешнего сервиса</div>
+          <h3>Виджет погоды</h3>
+          <p>Погода по геолокации или поиску города: текущие условия, УФ-индекс и прогноз на 7 дней.</p>
+          <ul class="ticks">
+            <li>Данные подгружаются из открытого сервиса погоды</li>
+            <li>Быстро грузится, аккуратно выглядит на любом экране</li>
+          </ul>
+          <div class="case-links"><a class="btn btn-primary btn-sm" href="https://siradastra.github.io/weather-widget/">Открыть сайт</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="process">
+    <div class="wrap">
+      <h2>Как работаем</h2>
+      <div class="steps">
+        <div class="step"><h4>Вы оставляете заявку</h4><p>Пара минут в боте: что нужно, сроки, бюджет. Задаём уточняющие вопросы и предлагаем самый простой рабочий вариант.</p></div>
+        <div class="step"><h4>Фиксируем цену и срок</h4><p>Короткое описание: что бот умеет, сколько стоит, когда будет готов. Цена не меняется по ходу работы.</p></div>
+        <div class="step"><h4>Делаем и показываем</h4><p>Вы пробуете бота до запуска и говорите, что поправить.</p></div>
+        <div class="step"><h4>Запуск и поддержка</h4><p>Запускаем бота и показываем, как им пользоваться. Ошибки после запуска исправляем бесплатно.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="faq">
+    <div class="wrap">
+      <h2>Частые вопросы</h2>
+      <div class="faq">
+        <div class="card"><h3>Сколько стоит бот?</h3><p>Зависит от задачи. Оценка бесплатная: цену называем до начала работы, и она не меняется, пока не меняется задача.</p></div>
+        <div class="card"><h3>Сколько это займёт?</h3><p>Простой бот для заявок — несколько дней. Бот со своей логикой — обычно одна-две недели. Точный срок называем вместе с ценой.</p></div>
+        <div class="card"><h3>Мне нужно разбираться в технике?</h3><p>Нет. Вы рассказываете, как работаете с клиентами, а мы превращаем это в кнопки и сообщения. Запуск и настройку берём на себя.</p></div>
+        <div class="card"><h3>Чей будет бот?</h3><p>Ваш. Бот создаётся на ваш аккаунт Telegram, данные клиентов принадлежат вам.</p></div>
+        <div class="card"><h3>А если потом понадобится что-то добавить?</h3><p>Добавим. Мелкие правки текстов и кнопок делаем быстро, новые функции оцениваем отдельно.</p></div>
+        <div class="card"><h3>На каких языках работает бот?</h3><p>На русском, румынском и английском. Язык для каждого клиента бот выбирает сам, а переключить его можно кнопкой.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <h2>О студии</h2>
+      <div class="about">
+        <div class="card">
+          <h3>AstraCode Studio</h3>
+          <p>Небольшая студия из Кишинёва. За проектами стоит разработчик с 2,5 годами коммерческого опыта. Вы общаетесь напрямую с тем, кто делает вашего бота, без менеджеров и посредников.</p>
+        </div>
+        <div class="card">
+          <h3>Как мы делаем ботов</h3>
+          <ul class="ticks" style="margin-top:10px">
+            <li>Каждая функция проверяется автоматическими тестами</li>
+            <li>Обновления ставятся почти без простоя, с автоматическим откатом при ошибке</li>
+            <li>База данных копируется каждый день</li>
+            <li>Общаемся на русском и английском</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2>Есть идея для бота?</h2>
+          <p>Опишите её в боте за пару минут. Ответим в течение дня, оценка бесплатная.</p>
+        </div>
+        <div class="list">
+          <a class="btn" href="https://t.me/astracode_studio_bot">🚀 Оставить заявку в боте</a>
+          <a class="plain" href="https://t.me/Sir_AdAstra">Telegram @Sir_AdAstra</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 AstraCode Studio · Кишинёв, Молдова</span>
+    <button class="theme-toggle" type="button" id="themeToggle">Тема: авто</button>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var order = ['auto', 'light', 'dark'];
+    var names = { auto: 'авто', light: 'светлая', dark: 'тёмная' };
+    var current = 'auto';
+    try { current = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+    function apply(t) {
+      if (t === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', t);
+      btn.textContent = 'Тема: ' + names[t];
+    }
+    apply(current);
+    btn.addEventListener('click', function () {
+      current = order[(order.indexOf(current) + 1) % order.length];
+      apply(current);
+      try { localStorage.setItem('theme', current); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>
