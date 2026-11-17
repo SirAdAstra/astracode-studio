@@ -115,6 +115,15 @@
   .faq .card { padding: 22px; }
   .faq h3 { font-size: 17px; }
 
+  /* language switch */
+  .top-right { display: flex; align-items: center; gap: 12px; }
+  .lang-switch { display: inline-flex; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+  .lang-switch button { background: none; border: 0; color: var(--muted); font: 600 13px "IBM Plex Mono", monospace; padding: 7px 8px; cursor: pointer; }
+  .lang-switch button + button { border-left: 1px solid var(--line); }
+  .lang-switch button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+  .top .short { display: none; }
+  @media (max-width: 1060px) { nav.links { display: none; } }
+
   /* about + contact */
   .about { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
   .contact { background: var(--accent); color: var(--accent-ink); border-radius: 28px; padding: 44px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; }
@@ -136,6 +145,9 @@
   @media (max-width: 520px) {
     .wrap { padding: 0 16px; }
     .top .long { display: none; }
+    .top .short { display: inline; }
+    .top .wrap { gap: 10px; }
+    .top-right { gap: 8px; }
     .hero { padding-top: 36px; }
     .steps { grid-template-columns: 1fr; }
     .card, .case { padding: 20px; }
@@ -155,7 +167,10 @@
       <a href="#faq">Вопросы</a>
       <a href="#contact">Контакты</a>
     </nav>
-    <a class="btn btn-primary btn-sm" href="https://t.me/astracode_studio_bot">Оставить заявку</a>
+    <div class="top-right">
+      <div class="lang-switch" role="group" aria-label="Язык"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="ro" aria-pressed="false">RO</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+      <a class="btn btn-primary btn-sm" href="https://t.me/astracode_studio_bot"><span class="long">Оставить заявку</span><span class="short">Заявка</span></a>
+    </div>
   </div>
 </header>
 
@@ -461,24 +476,871 @@
   </div>
 </footer>
 
+<script type="application/json" id="i18n">
+{
+"AstraCode Studio — Telegram-боты на заказ": [
+"AstraCode Studio — boți de Telegram la comandă",
+"AstraCode Studio — custom Telegram bots"
+],
+"Telegram-боты на заказ для бизнеса, сообществ и личных задач: заявки, запись клиентов, напоминания, рассылки. Бесплатная оценка задачи. Кишинёв и удалённо.": [
+"Boți de Telegram la comandă pentru afaceri, comunități și nevoi personale: cereri, programări, mementouri, mesaje către clienți. Evaluarea sarcinii este gratuită. Chișinău și la distanță.",
+"Custom Telegram bots for businesses, communities and personal tasks: requests, bookings, reminders, newsletters. Free estimate. Chișinău and remote."
+],
+"Язык": [
+"Limba",
+"Language"
+],
+"Услуги": [
+"Servicii",
+"Services"
+],
+"Боты": [
+"Boți",
+"Bots"
+],
+"Как работаем": [
+"Cum lucrăm",
+"How we work"
+],
+"Вопросы": [
+"Întrebări",
+"FAQ"
+],
+"Контакты": [
+"Contacte",
+"Contact"
+],
+"Оставить заявку": [
+"Lăsați o cerere",
+"Send a request"
+],
+"Заявка": [
+"Cerere",
+"Request"
+],
+"// Telegram-боты на заказ · Кишинёв и удалённо": [
+"// Boți de Telegram la comandă · Chișinău și la distanță",
+"// Custom Telegram bots · Chișinău and remote"
+],
+"Telegram-бот под вашу задачу": [
+"Un bot de Telegram pentru sarcina dumneavoastră",
+"A Telegram bot built for your task"
+],
+"Бот принимает заявки, записывает клиентов, напоминает и отвечает на вопросы, пока вы заняты делом. Опишите идею: скажем, как её сделать, сколько это стоит и когда будет готово.": [
+"Botul primește cereri, programează clienți, trimite mementouri și răspunde la întrebări, în timp ce dumneavoastră vă ocupați de afacere. Descrieți ideea, iar noi vă spunem cum o putem realiza, cât costă și când va fi gata.",
+"The bot takes requests, books clients, sends reminders and answers questions while you focus on your work. Describe your idea, and we will tell you how to build it, how much it costs and when it will be ready."
+],
+"Оставить заявку в боте": [
+"Lăsați o cerere în bot",
+"Send a request in the bot"
+],
+"Посмотреть примеры": [
+"Vedeți exemple",
+"See examples"
+],
+"за оценку задачи": [
+"pentru evaluarea sarcinii",
+"for an estimate"
+],
+"1 день": [
+"1 zi",
+"1 day"
+],
+"на ответ по заявке": [
+"pentru răspuns la cerere",
+"to reply to a request"
+],
+"4 бота": [
+"4 boți",
+"4 bots"
+],
+"работают каждый день": [
+"funcționează zilnic",
+"work every day"
+],
+"Пример интерфейса бота Skrepa": [
+"Exemplu de interfață a botului Skrepa",
+"Example of the Skrepa bot interface"
+],
+"бот · семейный чат": [
+"bot · chat de familie",
+"bot · family chat"
+],
+"Пора кормить Скрепу": [
+"E ora mesei pentru Skrepa",
+"Time to feed Skrepa"
+],
+"Прошло 3 часа с последнего кормления.": [
+"Au trecut 3 ore de la ultima masă.",
+"3 hours since the last meal."
+],
+"🍽 Покормил": [
+"🍽 Am hrănit-o",
+"🍽 Fed"
+],
+"✅ Записал: 13:04, покормил Саша.": [
+"✅ Notat: 13:04, a hrănit-o Andrei.",
+"✅ Logged: 13:04, fed by Alex."
+],
+"Следующее напоминание в 16:04.": [
+"Următorul memento la 16:04.",
+"Next reminder at 16:04."
+],
+"Пора: обработка от блох": [
+"E timpul: tratament antipurici",
+"Due: flea treatment"
+],
+"Раз в месяц, сегодня.": [
+"O dată pe lună, astăzi.",
+"Once a month, today."
+],
+"✅ Сделано": [
+"✅ Făcut",
+"✅ Done"
+],
+"⏰ Завтра": [
+"⏰ Mâine",
+"⏰ Tomorrow"
+],
+"Так выглядит один из наших ботов": [
+"Așa arată unul dintre boții noștri",
+"This is what one of our bots looks like"
+],
+"Каких ботов мы делаем": [
+"Ce boți facem",
+"What bots we build"
+],
+"Небольшие боты под конкретную задачу: без лишних функций, с понятной ценой и сроком.": [
+"Boți mici pentru o sarcină concretă: fără funcții inutile, cu preț și termen clare.",
+"Small bots for a specific task: no extra features, with a clear price and deadline."
+],
+"💼 Для бизнеса": [
+"💼 Pentru afaceri",
+"💼 For business"
+],
+"Чтобы клиенты не терялись в переписке, а вы не отвечали на одно и то же.": [
+"Ca clienții să nu se piardă în mesaje, iar dumneavoastră să nu răspundeți mereu la aceleași întrebări.",
+"So clients do not get lost in chats, and you do not answer the same questions again and again."
+],
+"Приём заявок и заказов: пошаговая форма вместо переписки": [
+"Primirea cererilor și comenzilor: un formular pas cu pas în loc de mesaje lungi",
+"Requests and orders: a step-by-step form instead of long chats"
+],
+"Запись на услуги и напоминания клиентам о визите": [
+"Programări la servicii și mementouri pentru clienți înainte de vizită",
+"Bookings and visit reminders for clients"
+],
+"Каталог услуг или товаров с ценами, заказ в пару нажатий": [
+"Catalog de servicii sau produse cu prețuri, comandă din câteva atingeri",
+"A catalog of services or products with prices, order in a few taps"
+],
+"Ответы на частые вопросы и связь с менеджером": [
+"Răspunsuri la întrebări frecvente și legătură cu managerul",
+"Answers to common questions and contact with a manager"
+],
+"Рассылки и уведомления: акции, статус заказа, напоминания": [
+"Mesaje și notificări: oferte, starea comenzii, mementouri",
+"Newsletters and notifications: offers, order status, reminders"
+],
+"Отчёты для владельца: заявки за день, выгрузка в файл": [
+"Rapoarte pentru proprietar: cererile zilei, export în fișier",
+"Reports for the owner: today's requests, export to a file"
+],
+"Несколько языков: русский, румынский, английский": [
+"Mai multe limbi: română, rusă, engleză",
+"Several languages: Romanian, Russian, English"
+],
+"👥 Для команд, сообществ и себя": [
+"👥 Pentru echipe, comunități și uz personal",
+"👥 For teams, communities and yourself"
+],
+"Чтобы рутина делалась сама, а важное не забывалось.": [
+"Ca rutina să se facă singură, iar lucrurile importante să nu fie uitate.",
+"So routine work does itself and important things are not forgotten."
+],
+"Напоминания и расписания для семьи или сотрудников": [
+"Mementouri și programe pentru familie sau angajați",
+"Reminders and schedules for family or staff"
+],
+"Боты для групп: жеребьёвки, рейтинги, испытания, события": [
+"Boți pentru grupuri: trageri la sorți, clasamente, provocări, evenimente",
+"Group bots: random draws, rankings, challenges, events"
+],
+"Управление сервером или сервисом прямо из Telegram": [
+"Controlul unui server sau serviciu direct din Telegram",
+"Control a server or service right from Telegram"
+],
+"Оповещения о сбоях и важных событиях": [
+"Alerte despre erori și evenimente importante",
+"Alerts about failures and important events"
+],
+"Учёт и дневники: записи, графики, сводки": [
+"Evidență și jurnale: înregistrări, grafice, rezumate",
+"Records and logs: entries, charts, summaries"
+],
+"Роли и доступ: владелец, админы, участники": [
+"Roluri și acces: proprietar, administratori, membri",
+"Roles and access: owner, admins, members"
+],
+"Связь с внешними сервисами и сайтами": [
+"Integrare cu servicii externe și site-uri",
+"Connection to external services and websites"
+],
+"Не нашли свою задачу в списке?": [
+"Nu ați găsit sarcina dumneavoastră în listă?",
+"Your task is not on the list?"
+],
+"Если бота можно сделать технически, мы его сделаем. Опишите идею своими словами: в течение дня ответим, что получится, сколько это стоит и сколько займёт. Если задача не решается ботом, скажем об этом сразу.": [
+"Dacă un bot poate fi realizat tehnic, îl facem. Descrieți ideea cu propriile cuvinte: în decurs de o zi vă spunem ce se poate face, cât costă și cât durează. Dacă sarcina nu se rezolvă cu un bot, vă spunem imediat.",
+"If a bot is technically possible, we will build it. Describe your idea in your own words: within a day we will tell you what we can do, how much it costs and how long it takes. If a bot cannot solve the task, we will tell you right away."
+],
+"Описать идею": [
+"Descrieți ideea",
+"Describe your idea"
+],
+"Примеры наших ботов": [
+"Exemple de boți făcuți de noi",
+"Examples of our bots"
+],
+"Эти боты работают каждый день. Такого же или совсем другого сделаем для вас.": [
+"Acești boți funcționează în fiecare zi. Putem face pentru dumneavoastră unul la fel sau unul complet diferit.",
+"These bots work every day. We can build a similar one or a completely different one for you."
+],
+"Кому подойдёт:": [
+"Cui i se potrivește:",
+"Good for:"
+],
+"Пример интерфейса бота заявок AstraCode Studio": [
+"Exemplu de interfață a botului de cereri AstraCode Studio",
+"Example of the AstraCode Studio request bot interface"
+],
+"бот · личные сообщения": [
+"bot · mesaje private",
+"bot · private messages"
+],
+"👋 Здравствуйте! Это AstraCode Studio: делаем Telegram-ботов и небольшие сайты на заказ.": [
+"👋 Bună ziua! Suntem AstraCode Studio: creăm boți de Telegram și site-uri mici la comandă.",
+"👋 Hello! This is AstraCode Studio: we build custom Telegram bots and small websites."
+],
+"Что вам нужно?": [
+"De ce aveți nevoie?",
+"What do you need?"
+],
+"🤖 Бот": [
+"🤖 Bot",
+"🤖 Bot"
+],
+"🌐 Сайт": [
+"🌐 Site",
+"🌐 Website"
+],
+"Другое": [
+"Altceva",
+"Other"
+],
+"Проверьте заявку": [
+"Verificați cererea",
+"Check your request"
+],
+"Услуга: 🤖 Бот": [
+"Serviciu: 🤖 Bot",
+"Service: 🤖 Bot"
+],
+"Задача: запись клиентов в салон": [
+"Sarcina: programarea clienților la salon",
+"Task: client bookings for a salon"
+],
+"Сроки: 📅 1–2 недели": [
+"Termen: 📅 1–2 săptămâni",
+"Deadline: 📅 1–2 weeks"
+],
+"✅ Отправить": [
+"✅ Trimite",
+"✅ Send"
+],
+"✏️ Изменить": [
+"✏️ Modifică",
+"✏️ Edit"
+],
+"✅ Заявка №12 принята, ответим в течение дня.": [
+"✅ Cererea nr. 12 a fost primită, vă răspundem în decurs de o zi.",
+"✅ Request #12 received, we will reply within a day."
+],
+"для бизнеса · приём заявок": [
+"pentru afaceri · primirea cererilor",
+"for business · request intake"
+],
+"Бот для приёма заявок": [
+"Bot pentru primirea cererilor",
+"Request intake bot"
+],
+"Бот, через который студия сама принимает заказы. Клиент отвечает на несколько вопросов кнопками, владелец сразу получает готовую карточку заявки и переписывается с клиентом прямо через бота. Ни одна заявка не теряется в личных сообщениях.": [
+"Botul prin care studioul nostru primește comenzi. Clientul răspunde la câteva întrebări apăsând butoane, proprietarul primește imediat fișa cererii și discută cu clientul direct prin bot. Nicio cerere nu se pierde în mesajele private.",
+"The bot our studio uses to take orders. The client answers a few questions with buttons, the owner gets a ready request card at once and chats with the client right inside the bot. No request gets lost in private messages."
+],
+"салоны, мастерские, ремонт, доставка, репетиторы: любой бизнес, где клиенты пишут «сколько стоит и когда можно».": [
+"saloane, ateliere, reparații, livrări, meditatori: orice afacere în care clienții întreabă „cât costă și când se poate”.",
+"salons, workshops, repair, delivery, tutors: any business where clients ask “how much and when?”."
+],
+"Пошаговая форма: услуга, описание, сроки, бюджет, контакт; перед отправкой клиент проверяет и правит заявку": [
+"Formular pas cu pas: serviciu, descriere, termen, buget, contact; înainte de trimitere clientul verifică și corectează cererea",
+"Step-by-step form: service, description, deadline, budget, contact; the client checks and edits the request before sending"
+],
+"Статусы заявки и уведомления клиенту: новая, в работе, закрыта": [
+"Stările cererii și notificări pentru client: nouă, în lucru, închisă",
+"Request statuses and client notifications: new, in progress, closed"
+],
+"Переписка владельца с клиентом внутри бота, без обмена номерами": [
+"Discuția proprietarului cu clientul în interiorul botului, fără schimb de numere de telefon",
+"The owner chats with the client inside the bot, no need to share phone numbers"
+],
+"Три языка: русский, румынский, английский": [
+"Trei limbi: română, rusă, engleză",
+"Three languages: Romanian, Russian, English"
+],
+"Язык подбирается автоматически по настройкам Telegram клиента": [
+"Limba se alege automat după setările Telegram ale clientului",
+"The language is chosen automatically from the client's Telegram settings"
+],
+"Защита от спама: лимит заявок и сообщений в сутки": [
+"Protecție anti-spam: limită de cereri și mesaje pe zi",
+"Spam protection: a daily limit for requests and messages"
+],
+"Настраивается под любой бизнес одним файлом: услуги, вопросы, тексты": [
+"Se adaptează la orice afacere printr-un singur fișier: servicii, întrebări, texte",
+"Adapts to any business with one file: services, questions, texts"
+],
+"Автоматические резервные копии базы заявок": [
+"Copii de rezervă automate ale bazei de cereri",
+"Automatic backups of the request database"
+],
+"Попробовать бота": [
+"Încercați botul",
+"Try the bot"
+],
+"Пример интерфейса BotAstra": [
+"Exemplu de interfață BotAstra",
+"Example of the BotAstra interface"
+],
+"бот · группа отряда": [
+"bot · grupul echipei",
+"bot · squad group"
+],
+"Реалистичные бои · БР 7.7": [
+"Bătălii realiste · BR 7.7",
+"Realistic battles · BR 7.7"
+],
+"Наземная техника, у каждого своя:": [
+"Tehnică terestră, fiecare cu a sa:",
+"Ground vehicles, one for each player:"
+],
+"• Саша — Т-55А": [
+"• Andrei — T-55A",
+"• Alex — T-55A"
+],
+"• Дима — Leopard A1A1": [
+"• Mihai — Leopard A1A1",
+"• Dan — Leopard A1A1"
+],
+"• Олег — M60A1": [
+"• Ion — M60A1",
+"• Mike — M60A1"
+],
+"• Ира — AMX-30B2": [
+"• Ana — AMX-30B2",
+"• Kate — AMX-30B2"
+],
+"🎲 Перебросить": [
+"🎲 Din nou",
+"🎲 Reroll"
+],
+"Испытание недели": [
+"Provocarea săptămânii",
+"Challenge of the week"
+],
+"Саша: 3 уничтожения на ИТ-1 за один бой. До понедельника 12:00.": [
+"Andrei: 3 distrugeri cu IT-1 într-o singură bătălie. Până luni, 12:00.",
+"Alex: 3 kills with the IT-1 in one battle. Until Monday 12:00."
+],
+"✅ Я сделал": [
+"✅ Am reușit",
+"✅ Done it"
+],
+"для сообщества · игровой чат": [
+"pentru comunitate · chat de jocuri",
+"for a community · gaming chat"
+],
+"Бот игрового сообщества": [
+"Bot pentru o comunitate de jucători",
+"Gaming community bot"
+],
+"Бот для группы друзей, которые играют вместе. Каждый отмечает свою технику, а команда": [
+"Un bot pentru un grup de prieteni care joacă împreună. Fiecare își marchează tehnica, iar comanda",
+"A bot for a group of friends who play together. Everyone marks their vehicles, and the command"
+],
+"подбирает всем машины так, чтобы отряд попал в один бой. Бот живёт в общем чате, ведёт рейтинг и сам напоминает о событиях.": [
+"alege tuturor vehicule astfel încât echipa să intre în aceeași bătălie. Botul trăiește în chatul comun, ține clasamentul și amintește singur de evenimente.",
+"picks vehicles for everyone so the squad gets into the same battle. The bot lives in the group chat, keeps a ranking and reminds about events by itself."
+],
+"игровые и любительские сообщества, клубы, команды: всё, где нужны жеребьёвка, рейтинг, испытания и общий календарь.": [
+"comunități de jucători și pasionați, cluburi, echipe: oriunde e nevoie de tragere la sorți, clasament, provocări și un calendar comun.",
+"gaming and hobby communities, clubs, teams: anywhere you need draws, rankings, challenges and a shared calendar."
+],
+"Каталог ~3 300 машин, обновляется из открытых данных игры": [
+"Catalog de ~3.300 de vehicule, actualizat din datele deschise ale jocului",
+"A catalog of ~3,300 vehicles, updated from open game data"
+],
+"Поиск понимает сленг и сокращённые названия": [
+"Căutarea înțelege argoul și denumirile prescurtate",
+"Search understands slang and short names"
+],
+"Справедливый подбор: учитывает технику самого слабого игрока": [
+"Selecție corectă: ține cont de tehnica celui mai slab jucător",
+"Fair matching: it takes the weakest player's vehicles into account"
+],
+"Настройки для каждого чата кнопками, без команд": [
+"Setări pentru fiecare chat prin butoane, fără comenzi",
+"Settings for each chat with buttons, no commands"
+],
+"Еженедельные испытания, рейтинг и серии, как в Duolingo": [
+"Provocări săptămânale, clasament și serii, ca în Duolingo",
+"Weekly challenges, rankings and streaks, like in Duolingo"
+],
+"Напоминания о событиях, новости после каждого обновления": [
+"Mementouri despre evenimente, noutăți după fiecare actualizare",
+"Event reminders, news after every update"
+],
+"Пример интерфейса Minecraft Admin Bot": [
+"Exemplu de interfață Minecraft Admin Bot",
+"Example of the Minecraft Admin Bot interface"
+],
+"бот · группа сервера": [
+"bot · grupul serverului",
+"bot · server group"
+],
+"🟢 Сервер работает": [
+"🟢 Serverul funcționează",
+"🟢 Server is running"
+],
+"Игроков: 4 · TPS 19.8": [
+"Jucători: 4 · TPS 19.8",
+"Players: 4 · TPS 19.8"
+],
+"RAM 5.1 / 8 ГБ · CPU 64%": [
+"RAM 5.1 / 8 GB · CPU 64%",
+"RAM 5.1 / 8 GB · CPU 64%"
+],
+"Аптайм 6 ч 12 мин": [
+"Uptime 6 h 12 min",
+"Uptime 6 h 12 min"
+],
+"погиб в Верхнем мире": [
+"a murit în Overworld",
+"died in the Overworld"
+],
+"📍 TP админа к месту": [
+"📍 TP admin la loc",
+"📍 TP admin to the spot"
+],
+"💾 Бэкап готов: 1,2 ГБ. Свободно 18 ГБ.": [
+"💾 Backup gata: 1,2 GB. Liber: 18 GB.",
+"💾 Backup ready: 1.2 GB. 18 GB free."
+],
+"для администратора · управление сервисом": [
+"pentru administrator · controlul serviciului",
+"for an admin · service control"
+],
+"Админ-бот игрового сервера": [
+"Bot de administrare pentru un server de joc",
+"Game server admin bot"
+],
+"Управление сервером Minecraft прямо из Telegram: статус, кнопки питания, консоль, модерация и мост чата между игрой и группой. Админу не нужен компьютер: всё делается с телефона, а о проблемах бот сообщает сам.": [
+"Controlul unui server Minecraft direct din Telegram: stare, butoane de pornire și oprire, consolă, moderare și o punte de chat între joc și grup. Administratorul nu are nevoie de calculator: totul se face de pe telefon, iar despre probleme botul anunță singur.",
+"Control a Minecraft server right from Telegram: status, power buttons, console, moderation and a chat bridge between the game and the group. The admin does not need a computer: everything works from a phone, and the bot reports problems by itself."
+],
+"владельцы серверов и сервисов. Тот же подход работает для сайта, оборудования или любой системы с API: статус, кнопки управления, оповещения о сбоях.": [
+"proprietari de servere și servicii. Aceeași abordare funcționează pentru un site, echipamente sau orice sistem cu API: stare, butoane de control, alerte despre erori.",
+"owners of servers and services. The same approach works for a website, equipment or any system with an API: status, control buttons, failure alerts."
+],
+"Живой статус в закреплённом сообщении: онлайн, TPS, RAM, диск": [
+"Stare în timp real într-un mesaj fixat: jucători online, TPS, RAM, disc",
+"Live status in a pinned message: players online, TPS, RAM, disk"
+],
+"Start / Stop / Restart с подтверждением и журналом действий": [
+"Start / Stop / Restart cu confirmare și jurnal de acțiuni",
+"Start / Stop / Restart with confirmation and an action log"
+],
+"Алерты о падении сервера с автоперезапуском, отчёты о бэкапах": [
+"Alerte la căderea serverului cu repornire automată, rapoarte despre backupuri",
+"Crash alerts with automatic restart, backup reports"
+],
+"Мост чата Telegram ↔ игра, координаты смертей, вайтлист и баны": [
+"Punte de chat Telegram ↔ joc, coordonatele morților, whitelist și banuri",
+"Telegram ↔ game chat bridge, death coordinates, whitelist and bans"
+],
+"Связь с панелью хостинга: бот видит то же, что и админ в панели": [
+"Legătură cu panoul de hosting: botul vede tot ce vede administratorul în panou",
+"Connected to the hosting panel: the bot sees the same as the admin in the panel"
+],
+"Пример интерфейса Skrepa": [
+"Exemplu de interfață Skrepa",
+"Example of the Skrepa interface"
+],
+"⚖️ Вес": [
+"⚖️ Greutate",
+"⚖️ Weight"
+],
+"Вес Скрепы": [
+"Greutatea lui Skrepa",
+"Skrepa's weight"
+],
+"Сегодня: 4,2 кг (+0,1 за неделю)": [
+"Astăzi: 4,2 kg (+0,1 într-o săptămână)",
+"Today: 4.2 kg (+0.1 this week)"
+],
+"Норма для её возраста ✅": [
+"Normal pentru vârsta ei ✅",
+"Normal for her age ✅"
+],
+"💊 Приём лекарства: 1 таблетка, 2-й день из 5.": [
+"💊 Medicament: 1 pastilă, ziua 2 din 5.",
+"💊 Medicine: 1 tablet, day 2 of 5."
+],
+"✅ Дал": [
+"✅ Am dat",
+"✅ Given"
+],
+"⏰ Через час": [
+"⏰ Peste o oră",
+"⏰ In an hour"
+],
+"Сводка для врача": [
+"Raport pentru veterinar",
+"Report for the vet"
+],
+"за 30 дней: вес, кормления, лекарства, уход, прививки.": [
+"pe 30 de zile: greutate, mese, medicamente, îngrijire, vaccinuri.",
+"for 30 days: weight, meals, medicines, care, vaccines."
+],
+"для семьи · напоминания и учёт": [
+"pentru familie · mementouri și evidență",
+"for a family · reminders and records"
+],
+"Семейный помощник по уходу за питомцем": [
+"Asistent de familie pentru îngrijirea animalului de companie",
+"Family pet-care assistant"
+],
+"Семейный бот: напоминает о кормлении, лекарствах и прививках, следит за весом и запасами корма. Каждый в семье видит, что уже сделано, и ничего не дублируется.": [
+"Un bot de familie: amintește de mese, medicamente și vaccinuri, urmărește greutatea și stocul de hrană. Fiecare membru al familiei vede ce s-a făcut deja, așa că nimic nu se face de două ori.",
+"A family bot: it reminds about meals, medicines and vaccines, and tracks weight and food stock. Everyone in the family sees what is already done, so nothing is done twice."
+],
+"та же схема работает для напоминаний клиентам о записи, графика смен, приёма лекарств или регулярного обслуживания техники.": [
+"aceeași schemă funcționează pentru mementouri despre programări, graficul turelor, administrarea medicamentelor sau întreținerea regulată a echipamentelor.",
+"the same approach works for booking reminders, shift schedules, medicine plans or regular equipment maintenance."
+],
+"Расписания напоминаний с отметкой «сделано» и повтором": [
+"Programe de mementouri cu marcajul „făcut” și repetare",
+"Reminder schedules with a “done” mark and repeats"
+],
+"Курсы лекарств: дозировка, счётчик дней, перенос приёма на час": [
+"Tratamente: doză, numărătoarea zilelor, amânare cu o oră",
+"Medicine courses: dose, day counter, postpone by an hour"
+],
+"Доступ для семьи: запрос доступа и одобрение админом": [
+"Acces pentru familie: cerere de acces și aprobare de către administrator",
+"Family access: an access request and admin approval"
+],
+"График веса, дневник наблюдений, отчёт файлом для врача": [
+"Graficul greutății, jurnal de observații, raport în fișier pentru veterinar",
+"Weight chart, observation diary, a report file for the vet"
+],
+"Учёт запасов и список покупок, недельная сводка": [
+"Evidența stocurilor și lista de cumpărături, rezumat săptămânal",
+"Stock tracking and a shopping list, weekly summary"
+],
+"Нужен ещё и сайт?": [
+"Aveți nevoie și de un site?",
+"Need a website too?"
+],
+"Делаем небольшие сайты и лендинги: страницу для бота, визитку, форму с расчётом цены. Примеры можно открыть с телефона.": [
+"Facem site-uri mici și landing page-uri: o pagină pentru bot, un site de prezentare, un formular cu calculul prețului. Exemplele se pot deschide de pe telefon.",
+"We build small websites and landing pages: a page for your bot, a business card site, a form with a price calculator. You can open the examples on your phone."
+],
+"Страница оформления доставки": [
+"Pagina de comandă a livrării",
+"Delivery order page"
+],
+"сайт · калькулятор доставки": [
+"site · calculator de livrare",
+"website · delivery calculator"
+],
+"Сайт службы доставки": [
+"Site pentru un serviciu de livrare",
+"Delivery service website"
+],
+"Учебный проект: расчёт стоимости, маршрут на карте и отслеживание посылки.": [
+"Proiect de studiu: calculul costului, traseul pe hartă și urmărirea coletului.",
+"A training project: price calculation, a route on the map and parcel tracking."
+],
+"Форма заказа с проверкой полей и расчётом цены по тарифам": [
+"Formular de comandă cu verificarea câmpurilor și calculul prețului după tarife",
+"Order form with field checks and price calculation by tariffs"
+],
+"Интерактивная карта, маршрут и подсказки адресов": [
+"Hartă interactivă, traseu și sugestii de adrese",
+"Interactive map, route and address suggestions"
+],
+"Удобно с телефона": [
+"Comod de pe telefon",
+"Easy to use on a phone"
+],
+"Открыть сайт": [
+"Deschideți site-ul",
+"Open the site"
+],
+"Виджет погоды": [
+"Widget meteo",
+"Weather widget"
+],
+"виджет · данные из внешнего сервиса": [
+"widget · date dintr-un serviciu extern",
+"widget · data from an external service"
+],
+"Погода по геолокации или поиску города: текущие условия, УФ-индекс и прогноз на 7 дней.": [
+"Vremea după geolocație sau după căutarea orașului: condițiile actuale, indicele UV și prognoza pe 7 zile.",
+"Weather by location or city search: current conditions, UV index and a 7-day forecast."
+],
+"Данные подгружаются из открытого сервиса погоды": [
+"Datele vin dintr-un serviciu meteo deschis",
+"Data comes from an open weather service"
+],
+"Быстро грузится, аккуратно выглядит на любом экране": [
+"Se încarcă rapid și arată bine pe orice ecran",
+"Loads fast and looks neat on any screen"
+],
+"Вы оставляете заявку": [
+"Lăsați o cerere",
+"You send a request"
+],
+"Пара минут в боте: что нужно, сроки, бюджет. Задаём уточняющие вопросы и предлагаем самый простой рабочий вариант.": [
+"Câteva minute în bot: ce aveți nevoie, termen, buget. Punem întrebări de clarificare și propunem cea mai simplă variantă care funcționează.",
+"A couple of minutes in the bot: what you need, deadline, budget. We ask a few questions and suggest the simplest working option."
+],
+"Фиксируем цену и срок": [
+"Stabilim prețul și termenul",
+"We fix the price and deadline"
+],
+"Короткое описание: что бот умеет, сколько стоит, когда будет готов. Цена не меняется по ходу работы.": [
+"O descriere scurtă: ce face botul, cât costă, când va fi gata. Prețul nu se schimbă pe parcursul lucrului.",
+"A short description: what the bot does, how much it costs, when it will be ready. The price does not change during the work."
+],
+"Делаем и показываем": [
+"Facem și vă arătăm",
+"We build and show"
+],
+"Вы пробуете бота до запуска и говорите, что поправить.": [
+"Încercați botul înainte de lansare și ne spuneți ce trebuie corectat.",
+"You try the bot before launch and tell us what to change."
+],
+"Запуск и поддержка": [
+"Lansare și suport",
+"Launch and support"
+],
+"Запускаем бота и показываем, как им пользоваться. Ошибки исправляем бесплатно в течение 30 дней после запуска.": [
+"Lansăm botul și vă arătăm cum să-l folosiți. Erorile le corectăm gratuit timp de 30 de zile după lansare.",
+"We launch the bot and show you how to use it. We fix bugs for free for 30 days after launch."
+],
+"Частые вопросы": [
+"Întrebări frecvente",
+"Frequently asked questions"
+],
+"Сколько стоит бот?": [
+"Cât costă un bot?",
+"How much does a bot cost?"
+],
+"Зависит от задачи. Оценка бесплатная: цену называем до начала работы, и она не меняется, пока не меняется задача.": [
+"Depinde de sarcină. Evaluarea este gratuită: prețul vi-l spunem înainte de începerea lucrului și nu se schimbă cât timp nu se schimbă sarcina.",
+"It depends on the task. The estimate is free: we name the price before we start, and it does not change unless the task changes."
+],
+"Сколько это займёт?": [
+"Cât durează?",
+"How long does it take?"
+],
+"Простой бот для заявок — несколько дней. Бот со своей логикой — обычно одна-две недели. Точный срок называем вместе с ценой.": [
+"Un bot simplu pentru cereri — câteva zile. Un bot cu logică proprie — de obicei una-două săptămâni. Termenul exact vi-l spunem odată cu prețul.",
+"A simple request bot takes a few days. A bot with custom logic usually takes one or two weeks. We give the exact deadline together with the price."
+],
+"Мне нужно разбираться в технике?": [
+"Trebuie să mă pricep la tehnologie?",
+"Do I need to be good with technology?"
+],
+"Нет. Вы рассказываете, как работаете с клиентами, а мы превращаем это в кнопки и сообщения. Запуск и настройку берём на себя.": [
+"Nu. Ne povestiți cum lucrați cu clienții, iar noi transformăm asta în butoane și mesaje. De lansare și configurare ne ocupăm noi.",
+"No. You tell us how you work with clients, and we turn it into buttons and messages. We take care of the launch and setup."
+],
+"Чей будет бот?": [
+"Al cui va fi botul?",
+"Who will own the bot?"
+],
+"Ваш. Бот создаётся на ваш аккаунт Telegram, данные клиентов принадлежат вам.": [
+"Al dumneavoastră. Botul se creează pe contul dumneavoastră de Telegram, iar datele clienților vă aparțin.",
+"You will. The bot is created on your Telegram account, and your client data belongs to you."
+],
+"А если потом понадобится что-то добавить?": [
+"Și dacă mai târziu va fi nevoie să adăugăm ceva?",
+"What if I need to add something later?"
+],
+"Добавим. Мелкие правки текстов и кнопок делаем быстро, новые функции оцениваем отдельно.": [
+"Adăugăm. Modificările mici de texte și butoane le facem rapid, iar funcțiile noi le evaluăm separat.",
+"We will add it. Small changes to texts and buttons are quick, and new features get a separate estimate."
+],
+"На каких языках работает бот?": [
+"În ce limbi funcționează botul?",
+"What languages does the bot speak?"
+],
+"На русском, румынском и английском. Язык для каждого клиента бот выбирает сам, а переключить его можно кнопкой.": [
+"În română, rusă și engleză. Botul alege singur limba pentru fiecare client, iar clientul o poate schimba cu un buton.",
+"Romanian, Russian and English. The bot chooses the language for each client by itself, and the client can switch it with a button."
+],
+"О студии": [
+"Despre studio",
+"About the studio"
+],
+"Небольшая студия из Кишинёва. За проектами стоит разработчик с 2,5 годами коммерческого опыта. Вы общаетесь напрямую с тем, кто делает вашего бота, без менеджеров и посредников.": [
+"Un studio mic din Chișinău. În spatele proiectelor stă un dezvoltator cu 2,5 ani de experiență comercială. Comunicați direct cu cel care face botul dumneavoastră, fără manageri și intermediari.",
+"A small studio from Chișinău. Behind the projects is a developer with 2.5 years of commercial experience. You talk directly to the person who builds your bot, with no managers or middlemen."
+],
+"Как мы делаем ботов": [
+"Cum facem boții",
+"How we build bots"
+],
+"Каждая функция проверяется автоматическими тестами": [
+"Fiecare funcție este verificată prin teste automate",
+"Every feature is checked by automated tests"
+],
+"Обновления ставятся почти без простоя, с автоматическим откатом при ошибке": [
+"Actualizările se instalează aproape fără întreruperi, cu revenire automată în caz de eroare",
+"Updates install with almost no downtime and roll back automatically on error"
+],
+"База данных копируется каждый день": [
+"Baza de date se copiază zilnic",
+"The database is backed up every day"
+],
+"Общаемся на русском и английском": [
+"Comunicăm în rusă și engleză",
+"We speak Russian and English"
+],
+"Есть идея для бота?": [
+"Aveți o idee de bot?",
+"Have an idea for a bot?"
+],
+"Опишите её в боте за пару минут. Ответим в течение дня, оценка бесплатная.": [
+"Descrieți-o în bot în câteva minute. Vă răspundem în decurs de o zi, evaluarea este gratuită.",
+"Describe it in the bot in a couple of minutes. We will reply within a day, and the estimate is free."
+],
+"🚀 Оставить заявку в боте": [
+"🚀 Lăsați o cerere în bot",
+"🚀 Send a request in the bot"
+],
+"© 2026 AstraCode Studio · Кишинёв, Молдова": [
+"© 2026 AstraCode Studio · Chișinău, Moldova",
+"© 2026 AstraCode Studio · Chișinău, Moldova"
+]
+}
+</script>
+<script type="application/json" id="i18n-ui">{"ru": {"theme": "Тема", "auto": "авто", "light": "светлая", "dark": "тёмная"}, "ro": {"theme": "Temă", "auto": "auto", "light": "luminoasă", "dark": "întunecată"}, "en": {"theme": "Theme", "auto": "auto", "light": "light", "dark": "dark"}}</script>
 <script>
   (function () {
-    var btn = document.getElementById('themeToggle');
-    var order = ['auto', 'light', 'dark'];
-    var names = { auto: 'авто', light: 'светлая', dark: 'тёмная' };
-    var current = 'auto';
-    try { current = localStorage.getItem('theme') || 'auto'; } catch (e) {}
-    function apply(t) {
-      if (t === 'auto') document.documentElement.removeAttribute('data-theme');
-      else document.documentElement.setAttribute('data-theme', t);
-      btn.textContent = 'Тема: ' + names[t];
+    var LANGS = ['ru', 'ro', 'en'];
+    var DICT = JSON.parse(document.getElementById('i18n').textContent);
+    var UI = JSON.parse(document.getElementById('i18n-ui').textContent);
+    var CYR = /[А-Яа-яЁё]/;
+    function norm(s) { return s.replace(/\s+/g, ' ').trim(); }
+    function tr(ru, lang) {
+      if (lang === 'ru') return ru;
+      var row = DICT[norm(ru)];
+      if (!row) { if (window.console) console.warn('i18n: no translation for', norm(ru)); return ru; }
+      return row[lang === 'ro' ? 0 : 1];
     }
-    apply(current);
-    btn.addEventListener('click', function () {
-      current = order[(order.indexOf(current) + 1) % order.length];
-      apply(current);
-      try { localStorage.setItem('theme', current); } catch (e) {}
+
+    // remember the Russian originals once
+    var texts = [];
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var n;
+    while ((n = walker.nextNode())) {
+      var p = n.parentNode;
+      if (!p || p.closest('script, style, #themeToggle')) continue;
+      if (!CYR.test(n.nodeValue)) continue;
+      var m = n.nodeValue.match(/^(\s*)([\s\S]*?)(\s*)$/);
+      texts.push({ node: n, ru: m[2], lead: m[1], trail: m[3] });
+    }
+    var attrs = [];
+    document.querySelectorAll('[aria-label], img[alt], meta[name="description"]').forEach(function (el) {
+      ['aria-label', 'alt', 'content'].forEach(function (a) {
+        var v = el.getAttribute(a);
+        if (v && CYR.test(v)) attrs.push({ el: el, attr: a, ru: v });
+      });
     });
+    var titleRu = document.title;
+
+    var themeBtn = document.getElementById('themeToggle');
+    var themeOrder = ['auto', 'light', 'dark'];
+    var theme = 'auto';
+    var lang = 'ru';
+    try { theme = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+
+    function paintTheme() {
+      if (theme === 'auto') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', theme);
+      themeBtn.textContent = UI[lang].theme + ': ' + UI[lang][theme];
+    }
+
+    function applyLang(l) {
+      lang = l;
+      document.documentElement.lang = l;
+      texts.forEach(function (t) { t.node.nodeValue = t.lead + tr(t.ru, l) + t.trail; });
+      attrs.forEach(function (a) { a.el.setAttribute(a.attr, tr(a.ru, l)); });
+      document.title = tr(titleRu, l);
+      document.querySelectorAll('.lang-switch button').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false');
+      });
+      paintTheme();
+    }
+
+    function detect() {
+      var q = null;
+      try { q = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+      if (LANGS.indexOf(q) >= 0) return q;
+      try { var s = localStorage.getItem('lang'); if (LANGS.indexOf(s) >= 0) return s; } catch (e) {}
+      var list = navigator.languages || [navigator.language || ''];
+      for (var i = 0; i < list.length; i++) {
+        var c = String(list[i] || '').toLowerCase().split('-')[0];
+        if (c === 'ro' || c === 'mo') return 'ro';
+        if (c === 'ru' || c === 'uk' || c === 'be' || c === 'kk') return 'ru';
+        if (c === 'en') return 'en';
+      }
+      return 'en';
+    }
+
+    document.querySelectorAll('.lang-switch button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var l = b.getAttribute('data-lang');
+        applyLang(l);
+        try { localStorage.setItem('lang', l); } catch (e) {}
+        try {
+          var url = new URL(location.href);
+          url.searchParams.set('lang', l);
+          history.replaceState(null, '', url);
+        } catch (e) {}
+      });
+    });
+    themeBtn.addEventListener('click', function () {
+      theme = themeOrder[(themeOrder.indexOf(theme) + 1) % themeOrder.length];
+      paintTheme();
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    });
+
+    applyLang(detect());
   })();
 </script>
 </body>
